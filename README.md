@@ -10,6 +10,9 @@ Each subfolder represents an individual project. Here's what each one is about:
 - **Description**: This project demonstrates the use of Node.js streams to handle data in a memory-efficient manner.
 - **Directory**: [node-streams](./node-streams)
 
+### 1. Node Modules
+- **Description**: This project demonstrates the use of Node.js modules, how to properly export and import modules.
+- **Directory**: [node-modules](./node-modules)
 
 ## General Setup Instructions
 
