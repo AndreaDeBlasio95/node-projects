@@ -1,4 +1,5 @@
 const fs = require("fs");
+const { get } = require("http");
 const { resolve } = require("path");
 const superagent = require("superagent"); // Importing the superagent module
 
@@ -51,6 +52,7 @@ fs.readFile(`${__dirname}/dog.txt`, (err, data) => {
 
 //          LESSON 3: PROMISES
 // read file using promises with async code (fs.readFile)
+// this function is used in lesson 3 and 4
 const readFileProm = (file) => {
   return new Promise((resolve, reject) => {
     // async code
@@ -61,6 +63,7 @@ const readFileProm = (file) => {
   });
 };
 
+// this function is used in lesson 3 and 4
 const writeFileProm = (file, data) => {
   return new Promise((resolve, reject) => {
     fs.writeFile(file, data, (err) => {
@@ -70,6 +73,7 @@ const writeFileProm = (file, data) => {
   });
 };
 
+/* // PART OF LESSON 3
 readFileProm(`${__dirname}/dog.txt`)
   .then((data) => {
     console.log(`Breed: ${data}`);
@@ -85,3 +89,60 @@ readFileProm(`${__dirname}/dog.txt`)
     // .catch method is used to handle the rejected promise
     console.log(err.message);
   });
+*/
+
+//          LESSON 4: ASYNC/AWAIT
+// async function to read the file
+const getDogPicture = async () => {
+  try {
+    const data = await readFileProm(`${__dirname}/dog.txt`); // await the promise
+    console.log(`Breed: ${data}`);
+
+    const res1Prom = superagent.get(
+      `https://dog.ceo/api/breed/${data}/images/random`
+    );
+    const res2Prom = superagent.get(
+      `https://dog.ceo/api/breed/${data}/images/random`
+    );
+    const res3Prom = superagent.get(
+      `https://dog.ceo/api/breed/${data}/images/random`
+    );
+    // run multiple promises at the same time
+    const all = await Promise.all([res1Prom, res2Prom, res3Prom]);
+    const imgs = all.map((el) => el.body.message);
+    console.log(imgs);
+
+    await writeFileProm("dog-img.txt", imgs.join("\n")); // await the promise
+    console.log("Random dog image saved to file!");
+  } catch (err) {
+    console.log(err.message);
+    throw err; // this will throw the error to the next catch block (if there is one
+  }
+  return "2: READY 🐶";
+};
+
+//const picDog = getDogPicture();
+//console.log(picDog); // this will return: Promise { <pending> }
+
+/*
+// using then and catch
+// we use then each time we call an async function that returns a promise
+getDogPicture()
+  .then(() => {
+    console.log("Finished getting dog picture");
+  })
+  .catch((err) => {
+    console.log("ERROR 💥");
+  });
+*/
+
+(async () => {
+  try {
+    console.log("1: Will get dog pics!");
+    const dogPic = await getDogPicture();
+    console.log(dogPic);
+    console.log("3: Done getting dog pics!");
+  } catch (err) {
+    console.log("ERROR 💥");
+  }
+})();
