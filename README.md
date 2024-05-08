@@ -14,7 +14,7 @@ Each subfolder represents an individual project. Here's what each one is about:
 - **Description**: This project demonstrates the use of Node.js modules, how to properly export and import modules.
 - **Directory**: [node-modules](./node-modules)
 
-- ### 3. Promises, Async/Await, and Callbacks
+### 3. Promises, Async/Await, and Callbacks
 - **Description**: This project demonstrates how to managing sequential tasks without blocking execution.
 - **Directory**: [promises-async-await](./promises-async-await)
 
